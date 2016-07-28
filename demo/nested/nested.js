@@ -35,15 +35,18 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
                         },
                         {
                             "type": "skill",
-                            "title": "Frostbite"
+                            "title": "Frostbite",
+                            "rules": []
                         },
                         {
                             "type": "skill",
-                            "title": "Entangle"
+                            "title": "Entangle",
+                            "rules": []
                         },
                         {
                             "type": "skill",
-                            "title": "Entangle"
+                            "title": "Magic missile",
+                            "rules": []
                         }
                     ]
                 },
@@ -53,21 +56,25 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
                     "items": [
                         {
                             "type": "skill",
-                            "title": "Parry"
+                            "title": "Parry",
+                            "rules": []
                         },
                         {
                             "type": "skill",
-                            "title": "Lunge"
+                            "title": "Lunge",
+                            "rules": []
                         },
                         {
                             "type": "skill",
-                            "title": "Slash"
+                            "title": "Slash",
+                            "rules": []
                         }
                     ]
                 },
                 {
                     "type": "skill",
-                    "title": "Health"
+                    "title": "Health",
+                    "rules": []
                 }
             ]
         }
@@ -128,19 +135,5 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
             }
             $scope.editSkill();
         });
-    };
-
-    $scope.allowedTypes = function (list) {
-        switch (list.$parent.type) {
-            case "group":
-                return ["group", "skill"];
-                break;
-            case "skill":
-                return ["rule"];
-                break;
-            default:
-                // rule
-                return [];
-        }
     };
 });
