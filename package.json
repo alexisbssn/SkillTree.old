@@ -1,0 +1,29 @@
+{
+    "name": "angular-drag-and-drop-lists",
+    "main": "angular-drag-and-drop-lists.js",
+    "version": "1.4.0",
+    "description": "Angular directives for sorting nested lists using the HTML5 Drag and Drop API",
+    "repository": "https://github.com/marceljuenemann/angular-drag-and-drop-lists",
+    "license": "MIT",
+    "main": "angular-drag-and-drop-lists.js",
+    "devDependencies": {
+        "bootstrap": "~3",
+        "angular": "~1.5.7",
+        "angular-route": "~1.5.7",
+        "angular-resource": "~1.5.7",
+        "angular-material":"~1.0.9",
+        "angular-mocks": "~1.5.7",
+        "http-server": "~0.6.1",
+        "minifier": "~0.7.1",
+        "jasmine-core": "~2.4.1",
+        "angular-aria": "~1.5.7",
+        "angular-animate": "~1.5.7",
+        "font-awesome": "",
+        "ngclipboard": "",
+        "clipboard": ""
+    },
+    "scripts": {
+        "minify": "minify angular-drag-and-drop-lists.js",
+        "start": "http-server -p 8000"
+    }
+}
