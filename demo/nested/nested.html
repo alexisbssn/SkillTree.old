@@ -1,19 +1,19 @@
 <script type="text/ng-template" id="groupList.html">
     <ul class="list-inline" dnd-list="list" dnd-allowed-types="['group', 'skill']">
-        <li ng-repeat="item in list"
-            dnd-draggable="item"
-            dnd-type="item.type"
-            dnd-effect-allowed="move"
-            dnd-moved="list.splice($index, 1)"
-            dnd-selected="models.selected = item"
-            ng-class="{selected: models.selected === item}"
-            ng-include="item.type + '.html'">
-        </li>
+    <li ng-repeat="item in list"
+    dnd-draggable="item"
+    dnd-type="item.type"
+    dnd-effect-allowed="move"
+    dnd-moved="list.splice($index, 1)"
+    dnd-selected="models.selected = item"
+    ng-class="{selected: models.selected === item}"
+    ng-include="item.type + '.html'">
+    </li>
     </ul>
 </script>
 
 <script type="text/ng-template" id="skillList.html">
-    <ul class="list-inline" dnd-list="list" dnd-allowed-types="['rule']">
+    <ul class="list-inline" dnd-list="list" dnd-horizontal-list="true" dnd-allowed-types="['rule']">
         <li ng-repeat="item in list"
             dnd-draggable="item"
             dnd-type="item.type"
@@ -28,23 +28,27 @@
 
 <script type="text/ng-template" id="group.html">
     <div class="container-element box box-blue">
-        <h3>{{item.title}}</h3>
-        <!--Will only ever repeat once-->
-        <div ng-repeat="list in [item.items]" ng-include="'groupList.html'"></div>
-        <div class="clearfix"></div>
+    <h3>{{item.title}}</h3>
+    <!--Will only ever repeat once-->
+    <div ng-repeat="list in [item.items]" ng-include="'groupList.html'"></div>
+    <div class="clearfix"></div>
     </div>
 </script>
 
 <script type="text/ng-template" id="skill.html">
     <div class="item ">
-        <div>{{item.title}}</div>
-        <!--Will only ever repeat once-->
-        <div class="row" ng-repeat="list in [item.rules]" ng-include="'skillList.html'"></div>
+    <div>{{item.title}}</div>
+    <!--Will only ever repeat once-->
+    <div class="row" ng-repeat="list in [item.rules]" ng-include="'skillList.html'"></div>
     </div>
 </script>
 
 <script type="text/ng-template" id="rule.html">
     <div class="item col-xs-2">{{item.title}}</div>
+</script>
+
+<script type="text/ng-template" id="copyItem.html">
+    <div class="item">{{item.title}}</div>
 </script>
 
 <div>
@@ -77,7 +81,8 @@
                      element was created, dnd-copied is invoked and we generate the next id -->
                 <li ng-repeat="item in models.templates"
                     dnd-draggable="item"
-                    dnd-effect-allowed="copy">
+                    dnd-effect-allowed="copy"
+                    dnd-type='item.type'>
                     <button type="button" class="btn btn-default btn-lg" disabled="disabled">{{ item.type}}</button>
                 </li>
             </ul>
@@ -90,23 +95,39 @@
                 <div><strong>Type: </strong> {{ models.selected.type}}</div>
                 <!--<input type="text" ng-model="models.selected.id" class="form-control" style="margin-top: 5px" />-->
                 <div>{{ models.selected.id}}</div>
-                <button type='button' class="btn btn-default btn-lg" ng-click="editSkill()">Edit</button>
+                <button type='button' class="btn btn-default btn-lg" ng-click="edit()">Edit</button>
             </div>
         </div>
-
         <div class="trashcan box box-grey box-padding">
             <!-- If you use [] as referenced list, the dropped elements will be lost -->
             <h3>Trashcan</h3>
-            <ul dnd-list="[]">
+            <ul id='trashcan' dnd-list="[]">
                 <li><img src="nested/trashcan.jpg" alt="Trash"></li>
             </ul>
+        </div>
+        <div class="toolbox box box-grey box-padding">
+            <h3>Copy Zone <i class="fa fa-trash pull-right" aria-hidden="true" ng-click="copyZone = []"></i></h3>
+            <ul class="list-inline" dnd-list="copyZone" dnd-allowed-types="['group', 'skill', 'rule']">
+                <li ng-if="!copyZone.length" dnd-draggable="false"><i class="fa fa-clone fa-5x" aria-hidden="true"></i></li>
+                <!--Will only ever repeat once-->
+                <li ng-repeat="item in copyZone"
+                    dnd-draggable="item"
+                    dnd-type="item.type"
+                    dnd-effect-allowed="copy"
+                    dnd-selected="models.selected = item"
+                    ng-class="{selected: models.selected === item}"
+                    ng-include="'copyItem.html'"
+                    class='col-xs-12'>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>
 
-<script type="text/ng-template" id="dialog_skill.html">
+<script type="text/ng-template" id="editDialog.html">
 <md-dialog aria-label="Edit dialog"  ng-cloak>
-  <form>
+  <form ng-show="models.selected.type !== 'rule'">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Edit {{ models.selected.type }}</h2>
@@ -123,10 +144,6 @@
             <label class="col-md-4" for="ruleTitle">Title: </label>
             <input type="text" name="ruleTitle" ng-model="models.selected.title"/>
         </div>
-        <div>
-            <button class="btn btn-group-justified btn-block" ng-repeat="rule in models.selected.rules" ng-click="editRule(rule)">{{rule.title}}</button>
-            <button class="btn btn-group-justified btn-block" ng-click="editRule()">Add new rule</button>
-        </div>
       </div>
     </md-dialog-content>
 
@@ -139,11 +156,7 @@
       </md-button>
     </md-dialog-actions>
   </form>
-</md-dialog>
-</script>
-<script type="text/ng-template" id="dialog_rule.html">
-<md-dialog aria-label="Edit dialog"  ng-cloak>
-    <form>
+    <form ng-cloak ng-show="models.selected.type === 'rule'">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Edit rule</h2>
@@ -155,19 +168,23 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div id="ruleName" layout="row">
+                <div layout="row">
                     <label class="col-md-4" for="ruleTitle">Title: </label>
-                    <input type="text" name="ruleTitle" ng-model="selectedRule.title"/>
-                </div>
-                <div id="item1" layout="row">
+                    <input type="text" name="ruleTitle" ng-model="models.selected.title"/>
                 </div>
                 <div layout="row">
-                <label class="col-md-4" for="typeSelect">Rule type: </label>
-                <select ng-model="selectedRule.ruleType" name="typeSelect" id="ruleTypeSelect">
-                    <option ng-repeat="ruleType in models.ruleTypes" value="{{ruleType.data}}">{{ruleType.label}}</option>
-                </select>
+                    <label class="col-md-4" for="typeSelect">Rule type: </label>
+                    <select ng-model="models.selected.ruleType" name="typeSelect" id="ruleTypeSelect">
+                        <option ng-repeat="ruleType in models.ruleTypes" value="{{ruleType.data}}">{{ruleType.label}}</option>
+                    </select>
                 </div>
-                <div id="item2" layout="row">
+                <div layout="row">
+                    <label class="col-md-4" for="ruleTarget">Target: </label>
+                    <input type="text" name="ruleTarget" ng-model="models.selected.target"/>
+                </div>
+                <div layout="row">
+                    <label class="col-md-4" for="ruleValue">Value: </label>
+                    <input type="number" name="ruleValue" ng-model="models.selected.value"/>
                 </div>
             </div>
         <md-dialog-content>
