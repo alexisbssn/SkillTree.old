@@ -23,9 +23,8 @@ angular.module("skilltree", ["ngRoute", "dndLists", "ngMaterial", "ngclipboard"]
                       '</li>',
             link: function (scope, element, attr) {
                 scope.options = [
-                    {label: "Nested Containers", href: "#/nested"},
-                    {label: "Item Types", href: "#/types"},
-                    {label: "Advanced Demo", href: "#/advanced"},
+                    {label: "Admin Page", href: "#/nested"},
+                    {label: "User Page", href: "#/tree"},
                 ];
 
                 scope.isActive = function(option) {
