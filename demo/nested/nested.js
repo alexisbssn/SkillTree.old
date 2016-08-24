@@ -1,10 +1,10 @@
 angular.module("skilltree").controller("AdminPanelController", function ($scope, $mdDialog) {
-    
+    $scope.tagetSelectionInProcess = null;
     $scope.models = {
         selected: null,
         templates: [
-            {type: "skill", title: "new skill", rules: []},
-            {type: "group", title: "new skill group", items: []},
+            {id: "", type: "skill", title: "new skill", description: "", rules: []},
+            {id: "", type: "group", title: "new skill group", items: []},
             {type: "rule", title: "new rule", target: "", ruleType: "", value: ""}
         ],
         ruleTypes: [
@@ -17,64 +17,73 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
         dropzones: {
             Skills: [
                 {
+                    id: "1",
                     type: "group",
                     title: "Magic",
                     items: [
                         {
+                            id: "2",
                             type: "skill",
                             title: "Fireball",
-                            rules: [
-                                {
-                                    type: "rule",
-                                    title: "test rule 1"
-                                },
-                                {
-                                    type: "rule",
-                                    title: "test rule 2"
-                                }
-                            ]
+                            description: "2 damage",
+                            rules: []
                         },
                         {
+                            id: "3",
                             type: "skill",
                             title: "Frostbite",
+                            description: "2 damage",
                             rules: []
                         },
                         {
+                            id: "4",
                             type: "skill",
                             title: "Entangle",
+                            description: "2 damage",
                             rules: []
                         },
                         {
+                            id: "5",
                             type: "skill",
                             title: "Magic missile",
+                            description: "2 damage",
                             rules: []
                         }
                     ]
                 },
                 {
+                    id: "6",
                     type: "group",
                     title: "Combat",
                     items: [
                         {
+                            id: "7",
                             type: "skill",
                             title: "Parry",
+                            description: "block 2 damage",
                             rules: []
                         },
                         {
+                            id: "8",
                             type: "skill",
                             title: "Lunge",
+                            description: "2 damage",
                             rules: []
                         },
                         {
+                            id: "9",
                             type: "skill",
                             title: "Slash",
+                            description: "2 damage",
                             rules: []
                         }
                     ]
                 },
                 {
+                    id: "10",
                     type: "skill",
                     title: "Health",
+                    description: "2 hp",
                     rules: []
                 }
             ]
@@ -97,7 +106,7 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
                     $mdDialog.cancel();
                 };
             },
-            templateUrl: 'editDialog.html',
+            templateUrl: 'nested/editDialog.html',
             parent: angular.element(document.body),
             scope: $scope,
             preserveScope: true,
@@ -107,5 +116,32 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
         }, function () {
             //$scope.status = 'You cancelled the dialog.';
         });
+    };
+    
+    $scope.$watch('models.selected', function(){
+        if($scope.targetSelectionInProcess)
+        {
+            console.log($scope.models.selected);
+            $scope.targetSelectionInProcess.target = $scope.models.selected.id;
+            $scope.models.selected = $scope.targetSelectionInProcess;
+            $scope.targetSelectionInProcess = null;
+            $scope.edit();
+        }
+    }, true);
+    
+    $scope.onClickSelectTarget = function(){
+        $scope.targetSelectionInProcess = $scope.models.selected;
+        $mdDialog.hide();
+    };
+    
+    $scope.finishTargetSelection = function(newlySelected, currentlySelected){
+        if($scope.targetSelectionInProcess === true)
+        {
+            $scope.targetSelectionInProcess = false;
+            console.log($scope.models.selected);
+            currentlySelected.target = $scope.models.selected.id;
+            $scope.models.selected = currentlySelected;
+            $scope.edit();
+        }
     };
 });

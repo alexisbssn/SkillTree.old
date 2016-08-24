@@ -1,0 +1,77 @@
+<md-dialog aria-label="Edit dialog"  ng-cloak>
+  <form ng-show="models.selected.type !== 'rule'">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Edit {{ models.selected.type }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times fa-2x" aria-label="Close" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div id="ruleName" layout="row">
+            <label class="col-md-5" for="ruleTitle">Title: </label>
+            <input type="text" name="ruleTitle" ng-model="models.selected.title"/>
+        </div>
+        <div id="ruleDescr" layout="row">
+            <label class="col-md-5" for="ruleTitle">Description: </label>
+            <input type="text" name="ruleTitle" ng-model="models.selected.description"/>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="pull-left" ng-click="hide()">
+       Cancel
+      </md-button>
+      <md-button class="pull-right" ng-click="hide()">
+        Save
+      </md-button>
+    </md-dialog-actions>
+  </form>
+    <form ng-cloak ng-show="models.selected.type === 'rule'">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Edit rule</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="fa fa-times fa-2x" aria-label="Close" aria-hidden="true"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="row">
+                    <label class="col-md-4" for="ruleTitle">Title: </label>
+                    <input type="text" name="ruleTitle" ng-model="models.selected.title"/>
+                </div>
+                <div layout="row">
+                    <label class="col-md-4" for="typeSelect">Rule type: </label>
+                    <select ng-model="models.selected.ruleType" name="typeSelect" id="ruleTypeSelect">
+                        <option ng-repeat="ruleType in models.ruleTypes" value="{{ruleType.data}}">{{ruleType.label}}</option>
+                    </select>
+                </div>
+                <div layout="row">
+                    <label class="col-md-4" for="ruleValue">Value: </label>
+                    <input type="number" name="ruleValue" ng-model="models.selected.value"/>
+                </div>
+                <div layout="row">
+                    <label class="col-md-4">Target: </label>
+                    <button type="button" class="btn btn-default" ng-click="onClickSelectTarget()">Select</button>
+                    <div>Target id: {{ models.selected.target }}</div>
+                </div>
+            </div>
+        <md-dialog-content>
+        <md-dialog-actions layout="row">
+          <md-button class="pull-left" ng-click="hide()">
+           Cancel
+          </md-button>
+          <md-button class="pull-right" ng-click="hide()">
+            Save
+          </md-button>
+        </md-dialog-actions>
+    </form>    
+</md-dialog>
