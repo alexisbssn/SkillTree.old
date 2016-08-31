@@ -121,7 +121,6 @@ angular.module("skilltree").controller("AdminPanelController", function ($scope,
     $scope.$watch('models.selected', function(){
         if($scope.targetSelectionInProcess)
         {
-            console.log($scope.models.selected);
             $scope.targetSelectionInProcess.target = $scope.models.selected.id;
             $scope.models.selected = $scope.targetSelectionInProcess;
             $scope.targetSelectionInProcess = null;

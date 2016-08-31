@@ -5,15 +5,11 @@ angular.module("skilltree", ["ngRoute", "dndLists", "ngMaterial", "ngclipboard"]
                 templateUrl: 'nested/nested-frame.html',
                 controller: 'AdminPanelController'
             })
-            .when('/types', {
-                templateUrl: 'types/types-frame.html',
-                controller: 'TypesDemoController'
+            .when('/tree', {
+                templateUrl: 'userTree/userTree.html',
+                controller: ''
             })
-            .when('/advanced', {
-                templateUrl: 'advanced/advanced-frame.html',
-                controller: 'AdvancedDemoController'
-            })
-            .otherwise({redirectTo: '/nested'});
+            .otherwise({redirectTo: '/tree'});
     })
 
     .directive('navigation', function($rootScope, $location) {

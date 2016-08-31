@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="userTree/orbits.css">
+<div ng-controller="userTreeController" ng->
+    <div class="orbital">&middot;
+
+        <span class="orbit">
+                <span class="orbital">1</span>
+                <span class="orbital2">2
+                        <div class="orbit">
+                                <span class="planet">1</span>
+                                <span class="planet">2</span>
+                                <span class="planet">3</span>
+                                <span class="planet">4</span>
+                                <span class="planet">5</span>
+                                <span class="planet">6</span>
+                        </div>
+                </span>
+                <span class="orbital">3</span>
+                <span class="orbital">4</span>
+                <span class="orbital2">5
+                        <div class="orbit">
+                                <span class="planet">1</span>
+                                <span class="planet">2</span>
+                                <span class="planet">3</span>
+                                <span class="orbital3">4
+                                        <div class="orbit">
+                                                <span class="planet">1</span>
+                                                <span class="planet">2</span>
+                                                        <span class="orbital4">4
+                                                                <div class="orbit">
+                                                                        <span class="planet">1</span>
+                                                                        <span class="planet">2</span>
+                                                                        <span class="planet">3</span>
+                                                                        <span class="planet">4</span>
+                                                                        <span class="planet">5</span>
+                                                                </div>
+                                                </span>
+                                                <span class="planet">3</span>
+                                                <span class="planet">4</span>						
+                                        </div>
+                                </span>
+                                <span class="planet">5</span>
+                        </div>
+                </span>
+        </span>
+    </div>
+    <div ng-init="createOrbits()"></div>
+</div>
