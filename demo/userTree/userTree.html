@@ -23,6 +23,5 @@
 
 <div ng-controller="userTreeController">
     <div class="orbitsRoot"></div>
-    <div ng-init="createOrbits()"></div>
-    <textarea ng-bind="jsonRules"></textarea>
+    <textarea ng-model="textAreaData" ng-change="createOrbits()"></textarea>
 </div>
