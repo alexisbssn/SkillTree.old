@@ -1,8 +1,30 @@
-<link rel="stylesheet" href="userTree/orbits.css">
-<div ng-controller="userTreeController" ng->
+<script type="text/ng-template" id="orbit.html">
+    <ul class="list-inline" dnd-list="list" dnd-allowed-types="['group', 'skill']">
+        <li ng-repeat="item in list"
+        dnd-draggable="item"
+        dnd-type="item.type"
+        dnd-effect-allowed="move"
+        dnd-moved="list.splice($index, 1)"
+        dnd-selected="models.selected = item"
+        ng-class="{selected: models.selected === item}"
+        ng-include="'planet.html'">
+        </li>
+    </ul>
+</script>
+
+<script type="text/ng-template" id="planet.html">
+    <div class="container-element box box-blue">
+        <h3>{{item.title}}</h3>
+        <!--Will only ever repeat once-->
+        <div ng-repeat="list in [item.items]" ng-include="'groupList.html'"></div>
+        <div class="clearfix"></div>
+    </div>
+</script>
+
+<div ng-controller="userTreeController" class="orbitsRoot">
     <div class="orbital">&middot;
 
-        <span class="orbit">
+        <div class="orbit">
                 <span class="orbital">1</span>
                 <span class="orbital2">2
                         <div class="orbit">
@@ -41,7 +63,12 @@
                                 <span class="planet">5</span>
                         </div>
                 </span>
-        </span>
+        </div>
     </div>
     <div ng-init="createOrbits()"></div>
+    
+    <div ng-repeat="">
+        
+    </div>
+    <textarea ng-bind="jsonRules"></textarea>
 </div>
