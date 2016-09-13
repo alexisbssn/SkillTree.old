@@ -1,27 +1,27 @@
-<script type="text/ng-template" id="orbit.html">
-    <ul class="list-inline" dnd-list="list" dnd-allowed-types="['group', 'skill']">
-        <li ng-repeat="item in list"
-        dnd-draggable="item"
-        dnd-type="item.type"
-        dnd-effect-allowed="move"
-        dnd-moved="list.splice($index, 1)"
-        dnd-selected="models.selected = item"
-        ng-class="{selected: models.selected === item}"
-        ng-include="'planet.html'">
-        </li>
-    </ul>
-</script>
-
-<script type="text/ng-template" id="planet.html">
-    <div class="container-element box box-blue">
-        <h3>{{item.title}}</h3>
-        <!--Will only ever repeat once-->
-        <div ng-repeat="list in [item.items]" ng-include="'groupList.html'"></div>
-        <div class="clearfix"></div>
+<script type="text/ng-template" id="group.html">
+    <div class='orbital' ng-attr-id="{{item.id}}" orbital>
+        {{item.title}}
+        <div class='orbit'>
+            <div ng-repeat='item in item.items' ng-include="item.type + '.html'"></div>
+        </div>
     </div>
+</script>
+<script type="text/ng-template" id="skill.html">
+    <div class='planet' ng-attr-id="{{item.id}}">{{item.title}}</div>
 </script>
 
 <div ng-controller="userTreeController">
-    <div class="orbitsRoot"></div>
+    <div class="orbitsRoot">
+        <!--Will only ever repeat once-->
+        <div ng-repeat="item in skills" ng-include="item.type + '.html'"></div>
+    </div>
+    <div>Total skill points: {{skillPoints}}</div> 
+    <button ng-click="skillPoints = skillPoints + 1">+</button>
+    <button ng-click="skillPoints = skillPoints - 1">-</button>
+    <div>Remaining skill points: {{remainingSkillPoints()}}</div>
+    <div>Chosen skills: 
+        <div ng-show="chosenSkills.length > 0">None</div>
+        <div ng-repeat="skill in chosenSkills">}{{skill.name}}</div>
+    </div>
     <textarea ng-model="textAreaData" ng-change="createOrbits()"></textarea>
 </div>

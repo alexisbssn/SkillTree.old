@@ -3,7 +3,7 @@
 .orbitsRoot { height:1024px; text-align:center; overflow:hidden; color:#f0f; font-family:"trebuchet ms"; padding:0; margin:0 }
 
 .planet { border:2px solid #f9f }
-planet:hover { border-color:#fff !important }
+.planet:hover { border-color:#fff !important }
 
 .orbital { 
     background:#202; top:300px; width:16px; height:16px; left:400px; padding:20px;
