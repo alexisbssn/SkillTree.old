@@ -4,13 +4,30 @@ angular.module("skilltree").controller("userTreeController", function ($scope) {
         var models = angular.fromJson($scope.textAreaData);
         var skillsGroup = [{id:"0", type: "group", title: "Skills", items: []}];
         skillsGroup[0].items = models.Skills;
-        $scope.skills = skillsGroup
+        $scope.skills = skillsGroup;
         
         //var root = $(".orbitsRoot");
         //root.children().remove();
         //var skills = {type: "group", title: "Skills", items: []};
         //skills.items = models.Skills;
         //$scope.createSkillNodes(skills, root);
+    };
+    
+    $scope.traverseAndOrbit = function(){
+        var target = $('.orbitsRoot').children();
+        // allNodes is a js array
+        var allNodes = [];
+        
+        while( target.length ) {
+            target.children(".orbital").each(function(index, element){
+                allNodes.push($(this).get()); 
+            });
+            target = target.children();
+        }
+        
+        $(allNodes.reverse()).each(function(index, element) {
+            $(this).jOrbital();
+        });
     };
     
     $scope.createSkillNodes = function(item, relativeRoot){
@@ -69,14 +86,13 @@ angular.module("skilltree").controller("userTreeController", function ($scope) {
     };
 });
 
-angular.module("skilltree").directive('orbital', function($timeout){
-    return{
+angular.module('skilltree').directive('onFinishRender', function ($timeout) {
+    return {
         restrict: 'A',
-        link: {
-            post: function(scope, element, attrs){
-                $(element).jOrbital();
-                console.log(attrs.id + " : " + scope.getItemById(attrs.id).title);
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                scope.$evalAsync(attr.onFinishRender);
             }
         }
-    };
+    }
 });
