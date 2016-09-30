@@ -1,9 +1,9 @@
 <script type="text/ng-template" id="group.html">
     <div class='orbital' ng-attr-id="{{item.id}}">
-        {{item.title}}
-        <div class='orbit'>
-            <div ng-repeat='item in item.items' ng-include="item.type + '.html'"></div>
-        </div>
+    {{item.title}}
+    <div class='orbit'>
+        <div ng-repeat='item in item.items' ng-include="item.type + '.html'" include-replace></div>
+    </div>
     </div>
 </script>
 <script type="text/ng-template" id="skill.html">
@@ -13,12 +13,11 @@
 <div ng-controller="userTreeController">
     <div class="orbitsRoot">
         <!--Will only ever repeat once-->
-        <div ng-repeat="item in skills" ng-include="item.type + '.html'" on-finish-render="traverseAndOrbit"></div>
+        <div ng-repeat="item in skills" ng-include="item.type + '.html'"></div>
     </div>
     <div>Total skill points: {{skillPoints}}</div> 
     <button ng-click="skillPoints = skillPoints + 1">+</button>
     <button ng-click="skillPoints = skillPoints - 1">-</button>
-    <button ng-click="traverseAndOrbit()">test</button>
     <div>Remaining skill points: {{remainingSkillPoints()}}</div>
     <div>Chosen skills: 
         <div ng-show="chosenSkills.length > 0">None</div>

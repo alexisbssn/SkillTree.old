@@ -1,4 +1,4 @@
-angular.module("skilltree").controller("userTreeController", function ($scope) {
+angular.module("skilltree").controller("userTreeController", function ($scope, $timeout) {
     
     $scope.createOrbits = function(){
         var models = angular.fromJson($scope.textAreaData);
@@ -6,45 +6,26 @@ angular.module("skilltree").controller("userTreeController", function ($scope) {
         skillsGroup[0].items = models.Skills;
         $scope.skills = skillsGroup;
         
-        //var root = $(".orbitsRoot");
-        //root.children().remove();
-        //var skills = {type: "group", title: "Skills", items: []};
-        //skills.items = models.Skills;
-        //$scope.createSkillNodes(skills, root);
-    };
-    
-    $scope.traverseAndOrbit = function(){
-        var target = $('.orbitsRoot').children();
-        // allNodes is a js array
-        var allNodes = [];
-        
-        while( target.length ) {
-            target.children(".orbital").each(function(index, element){
-                allNodes.push($(this).get()); 
-            });
-            target = target.children();
-        }
-        
-        $(allNodes.reverse()).each(function(index, element) {
-            $(this).jOrbital();
+        // Timeout so that we let time to render before starting any jQuery on an unfinished DOM
+        $timeout(function(){
+           $scope.traverseAndOrbit(); 
         });
     };
     
-    $scope.createSkillNodes = function(item, relativeRoot){
-            if(item.type === "group"){
-                var elem = $("<div class='orbital' id='" + item.id + "'>" + item.title + "</div>");
-                var orbit = $("<div class='orbit'></div>");
-                elem.append(orbit);
-                relativeRoot.append(elem);
-                $.each(item.items, function(index, newItem){
-                    $scope.createSkillNodes(newItem, orbit);
-                });
-                elem.jOrbital();
-            }else if(item.type === "skill"){
-                var elem = $("<span class='planet' id='" + item.id + "'>" + item.title + "</div>");
-                relativeRoot.append(elem);
-            }
-    };    
+    $scope.traverseAndOrbit = function(){
+        var target = $('.orbitsRoot').children().first();
+        $scope.activateOrbits(target);
+    };
+    
+    $scope.activateOrbits = function(relativeRoot){
+        $(relativeRoot).children().each(function(index, item) {
+            $scope.activateOrbits($(this));
+        });
+        if($(relativeRoot).hasClass("orbital")){
+            $(relativeRoot).jOrbital();
+        }
+    };
+     
     $scope.models = {};
     $scope.textAreaData = "";
     
@@ -80,19 +61,14 @@ angular.module("skilltree").controller("userTreeController", function ($scope) {
         }
         return null;
     };
-    $scope.orbitalme = function($event){
-        $($event.currentTarget).jOrbital();
-        console.log($event.currentTarget);
-    };
 });
 
-angular.module('skilltree').directive('onFinishRender', function ($timeout) {
+angular.module('skilltree').directive('includeReplace', function () {
     return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            if (scope.$last === true) {
-                scope.$evalAsync(attr.onFinishRender);
-            }
+        require: 'ngInclude',
+        restrict: 'A', /* optional */
+        link: function (scope, el, attrs) {
+            el.replaceWith(el.children());
         }
-    }
+    };
 });
