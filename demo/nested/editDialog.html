@@ -58,11 +58,15 @@
                     <label class="col-md-4" for="ruleValue">Value: </label>
                     <input type="number" name="ruleValue" ng-model="models.selected.value"/>
                 </div>
-                <div layout="row">
+                <div layout="row" ng-if="models.selected.ruleType !== 'cst'">
                     <label class="col-md-4">Target: </label>
                     <button type="button" class="btn btn-default" ng-click="onClickSelectTarget()">Select</button>
                     <div>Target id: {{ models.selected.target }}</div>
                 </div>
+                <div layout="row" ng-if="models.selected.ruleType === 'cst'">
+                    <label class="col-md-4">Target: </label>
+                    <input type="text" name="ruleTarget" ng-model="models.selected.target"/>
+                </div>                
             </div>
         <md-dialog-content>
         <md-dialog-actions layout="row">
