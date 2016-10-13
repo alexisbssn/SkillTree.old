@@ -1,13 +1,13 @@
 <script type="text/ng-template" id="group.html">
-    <div class='orbital' ng-attr-id="{{item.id}}">
-    {{item.title}}
-    <div class='orbit'>
-        <div ng-repeat='item in item.items' ng-include="item.type + '.html'" include-replace></div>
-    </div>
+    <div class='orbital' ng-attr-id="{{item.id}}" ng-click="choose(item.id)">
+        {{item.title}}
+        <div class='orbit'>
+            <div ng-repeat='item in item.items' ng-include="item.type + '.html'" include-replace></div>
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="skill.html">
-    <div class='planet' ng-attr-id="{{item.id}}">{{item.title}}</div>
+    <div class='planet' ng-attr-id="{{item.id}}" ng-click="choose(item.id)">{{item.title}}</div>
 </script>
 
 <div ng-controller="userTreeController">
@@ -21,7 +21,7 @@
     <div>Remaining skill points: {{remainingSkillPoints()}}</div>
     <div>Chosen skills: 
         <div ng-show="chosenSkills.length > 0">None</div>
-        <div ng-repeat="skill in chosenSkills">}{{skill.name}}</div>
+        <div ng-repeat="skill in chosenSkills">{{skill.name}}</div>
     </div>
     <textarea ng-model="textAreaData" ng-change="createOrbits()"></textarea>
 </div>

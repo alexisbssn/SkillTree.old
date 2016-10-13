@@ -61,6 +61,17 @@ angular.module("skilltree").controller("userTreeController", function ($scope, $
         }
         return null;
     };
+    
+    $scope.select = function(id){
+        item = $scope.getItemById(id);
+        for(i=0; i<$scope.chosenSkills.length; i++){
+            if($scope.chosenSkills[i].id === id){
+                $scope.chosenSkills.splice(i, 1);
+                return;
+            }
+        }
+        $scope.chosenSkills.push(item);
+    };
 });
 
 angular.module('skilltree').directive('includeReplace', function () {
